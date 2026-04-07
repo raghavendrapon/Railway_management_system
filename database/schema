@@ -1,1 +1,47 @@
+CREATE DATABASE IF NOT EXISTS railway_db;
+USE railway_db;
 
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    phone VARCHAR(15),
+    role ENUM('user', 'admin') DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS trains (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    train_number VARCHAR(20) UNIQUE NOT NULL,
+    train_name VARCHAR(100) NOT NULL,
+    source VARCHAR(100) NOT NULL,
+    destination VARCHAR(100) NOT NULL,
+    departure_time TIME NOT NULL,
+    arrival_time TIME NOT NULL,
+    total_seats INT NOT NULL,
+    available_seats INT NOT NULL,
+    fare DECIMAL(10,2) NOT NULL,
+    run_days VARCHAR(50) DEFAULT 'Daily',
+    status ENUM('active', 'inactive') DEFAULT 'active'
+);
+
+CREATE TABLE IF NOT EXISTS bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pnr VARCHAR(20) UNIQUE NOT NULL,
+    user_id INT NOT NULL,
+    train_id INT NOT NULL,
+    journey_date DATE NOT NULL,
+    passenger_name VARCHAR(100) NOT NULL,
+    passenger_age INT NOT NULL,
+    passenger_gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    seat_number VARCHAR(10),
+    status ENUM('confirmed', 'cancelled', 'waiting') DEFAULT 'confirmed',
+    booked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (train_id) REFERENCES trains(id)
+);
+
+-- Default admin account (password: admin123)
+INSERT IGNORE INTO users (name, email, password, role)
+VALUES ('Admin', 'admin@rms.com', 'scrypt:32768:8:1$gO9wCPtPlIVNPegn$82e74626edb0bf501117a347a54a925824bc338dd758a9e03a199564bf267fdad7c63121b08e447de937c420b854944f01e1c87197a1f72f5eb2af86e5340dc0', 'admin');
