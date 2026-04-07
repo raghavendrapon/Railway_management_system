@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}All Bookings{% endblock %}
+{% block content %}
+<div class="page-header"><h2>📋 All Bookings</h2></div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>PNR</th><th>User</th><th>Train</th><th>Route</th>
+            <th>Journey Date</th><th>Passenger</th><th>Seat</th><th>Status</th><th>Booked At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td><strong>{{ b.pnr }}</strong></td>
+            <td>{{ b.user_name }}<br><small>{{ b.email }}</small></td>
+            <td>{{ b.train_name }}<br><small>{{ b.train_number }}</small></td>
+            <td>{{ b.source }} → {{ b.destination }}</td>
+            <td>{{ b.journey_date }}</td>
+            <td>{{ b.passenger_name }}, {{ b.passenger_age }}</td>
+            <td>{{ b.seat_number }}</td>
+            <td>
+                <span class="badge {% if b.status == 'confirmed' %}badge-green{% elif b.status == 'cancelled' %}badge-red{% else %}badge-yellow{% endif %}">
+                    {{ b.status|capitalize }}
+                </span>
+            </td>
+            <td>{{ b.booked_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

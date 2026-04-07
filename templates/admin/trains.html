@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Manage Trains{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>🚂 Manage Trains</h2>
+    <a href="{{ url_for('admin.add_train') }}" class="btn btn-primary">+ Add Train</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Train No.</th><th>Name</th><th>From</th><th>To</th>
+            <th>Departure</th><th>Arrival</th><th>Seats</th><th>Available</th>
+            <th>Fare</th><th>Run Days</th><th>Status</th><th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for train in trains %}
+        <tr>
+            <td>{{ train.train_number }}</td>
+            <td>{{ train.train_name }}</td>
+            <td>{{ train.source }}</td>
+            <td>{{ train.destination }}</td>
+            <td>{{ train.departure_time }}</td>
+            <td>{{ train.arrival_time }}</td>
+            <td>{{ train.total_seats }}</td>
+            <td>{{ train.available_seats }}</td>
+            <td>₹{{ train.fare }}</td>
+            <td>{{ train.run_days }}</td>
+            <td>
+                <span class="badge {% if train.status == 'active' %}badge-green{% else %}badge-red{% endif %}">
+                    {{ train.status|capitalize }}
+                </span>
+            </td>
+            <td>
+                <a href="{{ url_for('admin.toggle_train', train_id=train.id) }}" class="btn btn-sm btn-outline">
+                    {% if train.status == 'active' %}Deactivate{% else %}Activate{% endif %}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="page-header"><h2>⚙️ Admin Dashboard</h2></div>
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value">{{ users }}</div>
+        <div class="stat-label">Total Users</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🚂</div>
+        <div class="stat-value">{{ active_trains }}</div>
+        <div class="stat-label">Active Trains</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value">{{ confirmed }}</div>
+        <div class="stat-label">Confirmed Bookings</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">❌</div>
+        <div class="stat-value">{{ cancelled }}</div>
+        <div class="stat-label">Cancelled Bookings</div>
+    </div>
+</div>
+<div class="admin-actions">
+    <a href="{{ url_for('admin.manage_trains') }}" class="btn btn-primary">Manage Trains</a>
+    <a href="{{ url_for('admin.add_train') }}" class="btn btn-secondary">Add New Train</a>
+    <a href="{{ url_for('admin.all_bookings') }}" class="btn btn-outline">View All Bookings</a>
+</div>
+{% endblock %}
