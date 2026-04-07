@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}PNR Status{% endblock %}
+{% block content %}
+<div class="page-header"><h2>🔎 PNR Status</h2></div>
+<div class="auth-card">
+    <form method="POST">
+        <div class="form-group">
+            <label>Enter PNR Number</label>
+            <input type="text" name="pnr" required placeholder="e.g. PNR12345678">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Check Status</button>
+    </form>
+</div>
+
+{% if booking %}
+<div class="pnr-result">
+    <h3>Booking Details</h3>
+    <div class="pnr-card">
+        <div class="pnr-row"><span>PNR</span><strong>{{ booking.pnr }}</strong></div>
+        <div class="pnr-row"><span>Train</span><strong>{{ booking.train_name }} ({{ booking.train_number }})</strong></div>
+        <div class="pnr-row"><span>Route</span><strong>{{ booking.source }} → {{ booking.destination }}</strong></div>
+        <div class="pnr-row"><span>Journey Date</span><strong>{{ booking.journey_date }}</strong></div>
+        <div class="pnr-row"><span>Departure</span><strong>{{ booking.departure_time }}</strong></div>
+        <div class="pnr-row"><span>Arrival</span><strong>{{ booking.arrival_time }}</strong></div>
+        <div class="pnr-row"><span>Passenger</span><strong>{{ booking.passenger_name }}, {{ booking.passenger_age }} ({{ booking.passenger_gender }})</strong></div>
+        <div class="pnr-row"><span>Seat</span><strong>{{ booking.seat_number }}</strong></div>
+        <div class="pnr-row"><span>Fare</span><strong>₹{{ booking.fare }}</strong></div>
+        <div class="pnr-row">
+            <span>Status</span>
+            <span class="badge {% if booking.status == 'confirmed' %}badge-green{% elif booking.status == 'cancelled' %}badge-red{% else %}badge-yellow{% endif %}">
+                {{ booking.status|capitalize }}
+            </span>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

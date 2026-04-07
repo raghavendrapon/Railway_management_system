@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Book Ticket{% endblock %}
+{% block content %}
+<div class="page-header"><h2>🎫 Book Ticket</h2></div>
+<div class="train-info-card">
+    <div class="train-route">
+        <span class="city">{{ train.source }}</span>
+        <span class="arrow">→</span>
+        <span class="city">{{ train.destination }}</span>
+    </div>
+    <div class="train-details-row">
+        <span>🚂 {{ train.train_name }} ({{ train.train_number }})</span>
+        <span>🕐 {{ train.departure_time }} - {{ train.arrival_time }}</span>
+        <span>💺 {{ train.available_seats }} seats available</span>
+        <span>💰 ₹{{ train.fare }}</span>
+    </div>
+</div>
+<div class="auth-card">
+    <h3>Passenger Details</h3>
+    <form method="POST">
+        <div class="form-group">
+            <label>Journey Date</label>
+            <input type="date" name="journey_date" required>
+        </div>
+        <div class="form-group">
+            <label>Passenger Name</label>
+            <input type="text" name="passenger_name" required placeholder="Full name">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="passenger_age" required min="1" max="120" placeholder="Age">
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select name="passenger_gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Confirm Booking</button>
+    </form>
+</div>
+{% endblock %}

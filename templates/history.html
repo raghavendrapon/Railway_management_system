@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<div class="page-header"><h2>📋 My Bookings</h2></div>
+{% if bookings %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>PNR</th><th>Train</th><th>Route</th><th>Journey Date</th>
+            <th>Passenger</th><th>Seat</th><th>Fare</th><th>Status</th><th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td><strong>{{ b.pnr }}</strong></td>
+            <td>{{ b.train_name }}<br><small>{{ b.train_number }}</small></td>
+            <td>{{ b.source }} → {{ b.destination }}</td>
+            <td>{{ b.journey_date }}</td>
+            <td>{{ b.passenger_name }}, {{ b.passenger_age }}</td>
+            <td>{{ b.seat_number }}</td>
+            <td>₹{{ b.fare }}</td>
+            <td>
+                <span class="badge {% if b.status == 'confirmed' %}badge-green{% elif b.status == 'cancelled' %}badge-red{% else %}badge-yellow{% endif %}">
+                    {{ b.status|capitalize }}
+                </span>
+            </td>
+            <td>
+                {% if b.status == 'confirmed' %}
+                <a href="{{ url_for('bookings.cancel', booking_id=b.id) }}"
+                   onclick="return confirm('Cancel this booking?')"
+                   class="btn btn-sm btn-danger">Cancel</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="no-results">No bookings found. <a href="{{ url_for('trains.search') }}">Search trains</a></div>
+{% endif %}
+{% endblock %}

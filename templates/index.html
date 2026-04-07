@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Welcome - RailwayRMS{% endblock %}
+{% block content %}
+<div class="hero">
+    <h1>🚂 Railway Reservation System</h1>
+    <p>Book train tickets easily, quickly and securely.</p>
+    <div class="hero-buttons">
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">Register</a>
+        <a href="{{ url_for('bookings.pnr_status') }}" class="btn btn-outline">Check PNR</a>
+    </div>
+</div>
+<div class="features">
+    <div class="feature-card">🔍<h3>Search Trains</h3><p>Find trains by source, destination & date</p></div>
+    <div class="feature-card">🎫<h3>Book Tickets</h3><p>Instant seat confirmation with PNR</p></div>
+    <div class="feature-card">❌<h3>Cancel Booking</h3><p>Easy cancellation anytime</p></div>
+    <div class="feature-card">📋<h3>PNR Status</h3><p>Track your booking status</p></div>
+</div>
+{% endblock %}

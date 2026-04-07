@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Search Trains{% endblock %}
+{% block content %}
+<div class="page-header"><h2>🔍 Search Trains</h2></div>
+<div class="search-card">
+    <form method="POST">
+        <div class="form-row">
+            <div class="form-group">
+                <label>From</label>
+                <input type="text" name="source" required placeholder="Source city"
+                       value="{{ source if source else '' }}">
+            </div>
+            <div class="form-group">
+                <label>To</label>
+                <input type="text" name="destination" required placeholder="Destination city"
+                       value="{{ destination if destination else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" name="date" required value="{{ date if date else '' }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if results is defined %}
+    {% if results %}
+    <div class="results-section">
+        <h3>Available Trains ({{ results|length }} found)</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Train No.</th><th>Train Name</th><th>From</th><th>To</th>
+                    <th>Departure</th><th>Arrival</th><th>Seats</th><th>Fare</th><th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for train in results %}
+                <tr>
+                    <td>{{ train.train_number }}</td>
+                    <td>{{ train.train_name }}</td>
+                    <td>{{ train.source }}</td>
+                    <td>{{ train.destination }}</td>
+                    <td>{{ train.departure_time }}</td>
+                    <td>{{ train.arrival_time }}</td>
+                    <td><span class="badge badge-green">{{ train.available_seats }}</span></td>
+                    <td>₹{{ train.fare }}</td>
+                    <td><a href="{{ url_for('bookings.book', train_id=train.id) }}" class="btn btn-sm btn-primary">Book</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="no-results">No trains found for this route.</div>
+    {% endif %}
+{% endif %}
+{% endblock %}
